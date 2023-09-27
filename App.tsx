@@ -8,14 +8,15 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
-  View,
-} from 'react-native';
+  View
+} from "react-native";
 
 import {
   Colors,
@@ -24,6 +25,13 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'https://a8e9796651e6b88bb70e505002fc359d@o169785.ingest.sentry.io/4505951781191680',
+});
+
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -72,6 +80,7 @@ function App(): JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <Header />
+        <Button title='Try!' onPress={ () => { Sentry.captureException(new Error('First error')) }}/>
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
